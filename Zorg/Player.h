@@ -4,6 +4,7 @@ class PlayerClass {
   public:
   uint8_t x;
   uint8_t y;
+  bool frame;
   byte d;
   char H;
   byte Keys;
@@ -31,6 +32,7 @@ void PlayerClass::PlayerMovement() {
     }   
 
   if (ard.justPressed(A_BUTTON)){
+    LEVEL++;
     gameState = GameState::GameStart;
   }
 }
