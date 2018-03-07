@@ -2,6 +2,7 @@
 //#include "ArduboyBeep.h"
 Arduboy2 ard;
 Sprites sprites;
+uint8_t LEVEL = 0;
 //BeepPin1 beep;
 #include "ENumsThatArentActualyEnums.h"
 #include "Player.h"

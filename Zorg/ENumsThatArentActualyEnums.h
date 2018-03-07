@@ -17,6 +17,11 @@ enum class GameState {
 };
 GameState gameState = GameState::GameStart;
 
+void Switch(uint8_t & x,uint8_t & x1){
+  uint8_t o = x;
+  x = x1;
+  x1 = o;
+}
 
 uint16_t GetOffset(uint8_t x,uint8_t y){
   uint16_t ColCheck = ((x/2)+(y*(MAXX/2)));
@@ -44,10 +49,39 @@ uint8_t GetBlock(uint8_t x,uint8_t y){
  return Block;
 }
 
-uint8_t GetBlockTrans(uint16_t x, uint16_t y) {
+bool Between(uint8_t x,uint8_t y,uint8_t x1,uint8_t y1,uint8_t x2,uint8_t y2){
+  if (x > x1) { Switch(x,x1); }
+  if (y > y1) { Switch(y,y1); }
+  if ((x <= x2)&&(x2 <= x1)&&(y <= y2)&&(y2 <= y1)){
+    return true;
+  } else {
+    return false;
+  }
+}
+
+uint8_t GetSurround8(uint8_t x,uint8_t y,uint8_t b){
+  uint8_t a = 0;
+  if (Between(1,1,MAXX-1,MAXY-1,x,y)){
+    if (GetBlock(x+1,y) == b) { a++; }
+    if (GetBlock(x-1,y) == b) { a++; }
+    if (GetBlock(x,y+1) == b) { a++; }
+    if (GetBlock(x,y-1) == b) { a++; }
+    if (GetBlock(x+1,y+1) == b) { a++; }
+    if (GetBlock(x+1,y-1) == b) { a++; }
+    if (GetBlock(x-1,y+1) == b) { a++; }
+    if (GetBlock(x-1,y-1) == b) { a++; }
+  } else return 4;
+  return a;
+}
+
+
+uint8_t GetBlockTrans(uint8_t x, uint8_t y) {
   uint8_t Block = 0;
   if ((x < 0) || (y < 0) || (x >= MAXX) || (y >= MAXY)) {
-    Block = 13;
+    if (LEVEL == 0)
+      Block = 12;
+    else
+      Block = 13;
     return Block;
   }
   else
@@ -58,9 +92,13 @@ uint8_t GetBlockTrans(uint16_t x, uint16_t y) {
     p[3] = GetBlock(x-1,y);
     p[1] = GetBlock(x,y+1);
     p[0] = GetBlock(x,y-1);
-    
+
+    if (Block == 0) {if(GetSurround8(x,y,0) <= 5) Block = 11;}
     if (Block == 2) {Block = 6;}
-    if (Block == 1){Block = 12;}
+    if (Block == 1){if (LEVEL == 0)
+                      Block = 12;
+                    else
+                      Block = 13;}
   return Block;
   }
 }
@@ -78,3 +116,7 @@ void SetBlock(uint8_t x,uint8_t y,uint8_t b){
  Block |= AddBlock;
  MAP[GetOffset(x,y)] = Block;
 }
+
+
+
+
