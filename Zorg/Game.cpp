@@ -32,20 +32,28 @@ void Game::Loop() {
 void Game::Update() {
 	
   if (arduboy.justPressed(UP_BUTTON)){
-	  player.y -= 1;
-	  player.direction = Direction::Up;
+    if (player.direction == Direction::Up)
+	    player.y -= 1;
+	  else
+	    player.direction = Direction::Up;
 	}
   else if (arduboy.justPressed(DOWN_BUTTON)){
-	  player.y += 1;
-	  player.direction = Direction::Down;
+    if (player.direction == Direction::Down)
+	    player.y += 1;
+	  else
+	    player.direction = Direction::Down;
 	}
   else if (arduboy.justPressed(RIGHT_BUTTON)){
-	  player.x += 1;
-	  player.direction = Direction::Right;
+    if (player.direction == Direction::Right)
+	    player.x += 1;
+	  else  
+	    player.direction = Direction::Right;
 	}
   else if (arduboy.justPressed(LEFT_BUTTON)){
-	  player.x -= 1;
-	  player.direction = Direction::Left;
+    if (player.direction == Direction::Left)
+	    player.x -= 1;
+	  else  
+	    player.direction = Direction::Left;
 	}   
 
   if (arduboy.justPressed(A_BUTTON)){
@@ -62,11 +70,11 @@ void Game::DisplayEnvironment()
 	int tileX = player.x;
 	int tileY = player.y;
 	
-	for (int i = -5; i < 5; i++)
+	for (int i = -4; i < 5; i++)
 	{
-		for(int j = -5; j < 5; j++)
+		for(int j = -4; j < 5; j++)
 		{
-			const auto block = worldMap.GetBlockTypeOrDefault(tileX + i, tileY + j, BlockType::Rock);
+			const auto block = worldMap.GetBlockSpriteOrDefault(tileX + i, tileY + j, BlockType::Fill);
 	  
 			int drawX = (i * 8) + CentreX;
 			int drawY = (j * 8) + CentreY;

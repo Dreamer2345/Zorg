@@ -57,13 +57,18 @@ public:
 		return (x % 2 == 0) ? block.GetHighType() : block.GetLowType();
 	}
 
-	BlockType GetBlockTypeOrDefault(uint8_t x, uint8_t y, BlockType defaultValue) const
+	uint8_t GetBlockSpriteOrDefault(uint8_t x, uint8_t y, uint8_t defaultValue) const
 	{
 		if (x >= MaxX || y >= MaxY)
 			return defaultValue;
 			
 		BlockPair block = GetBlockPair(x, y);
-		return (x % 2 == 0) ? block.GetHighType() : block.GetLowType();
+		BlockType blockret = (x % 2 == 0) ? block.GetHighType() : block.GetLowType();
+
+    switch(blockret){
+      case BlockType::
+    }
+    
 	}
 
 	void SetBlockPair(uint8_t x, uint8_t y, BlockPair pair)
